@@ -1,9 +1,9 @@
 from audio_sampling import analog_to_digital, song_to_digital, turn_off_ticks
-
 import numpy as np
 import librosa
 import matplotlib.pyplot as plt
 from IPython.display import Audio
+<<<<<<< HEAD
 import pickle
 
 sampling_rate = 44100
@@ -119,3 +119,10 @@ samp *= (2**15)
 samples = list(samp)
 dict[14] = samples
 
+=======
+import spectrogram
+import find_peaks
+%matplotlib notebook
+import matplotlib.mlab as mlab
+from microphone import record_audio
+>>>>>>> 45e64da263dd7b328a316d4af1eb09bb339590b5
