@@ -13,9 +13,7 @@ def main():
     mic_peaks = find_peaks.local_peaks(mic_spec, .77, 20)  #Find peaks of the unknown samples
     mic_fingerprint = fingerprints.sample_fingerprint(mic_peaks)   #Fingerprint the unknown samples
 
-    #Check for matches of the unknown samples to the known sample dictionary
-
-    #Return found or not found statement
+    matching.match(mic_fingerprint, known_songs)
 
 if __name__ == "__main__":
     main()
