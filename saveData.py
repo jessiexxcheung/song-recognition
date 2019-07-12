@@ -184,7 +184,7 @@ def main():
         spectrogram = create_spec(digital_data[song])
         peaks = local_peaks(spectrogram, 0.77, 15)
         pk_list.append(peaks)
-    song_fingerprint(pk_list)
+    d = song_fingerprint(pk_list)
 
     with open("song_fingerprints.pkl", mode="wb") as opened_file:
         pickle.dump(d, opened_file)
