@@ -3,7 +3,6 @@ import librosa
 from pathlib import Path
 import numpy as np
 from mutagen.mp3 import MP3
-import pickle
 
 orgSongDict = {}  # Initializes an empty dictionary which the data will be added to.
 
