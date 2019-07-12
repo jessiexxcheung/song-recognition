@@ -1,5 +1,6 @@
 from microphone import record_audio
 import spectrogram
+import numpy as np
 
 def rec(t):
     """
