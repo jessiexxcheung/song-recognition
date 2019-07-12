@@ -27,8 +27,8 @@ def match(fingerprint, database):
 
     # check most popular song id
     most_com = c.most_common(1)
-    print(most_com[0][1])
-    threshold = 100
+    print(most_com)
+    threshold = 70
     if most_com[0][1] < threshold:
         return "Petar doesn't recognize that song"
     else:

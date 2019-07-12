@@ -17,8 +17,11 @@ def songSave():
 
     files = sorted(song_root.glob('*.mp3'))  # Creates a list of all the song directories
 
+    with open("SongIds.pkl", mode="rb") as opened_file:
+        songIDdict = pickle.load(opened_file)
+
     # Iterates through the files and maps each song ID to a tuple containing the song and the artist
-    for i in range(len(files)):
+    for i in range(len(songIDdict), len(songIDdict)+len(files)):
         item2 = files[i].stem
         item3 = tuple(item2.split("_"))
         songIdDict[i] = item3
