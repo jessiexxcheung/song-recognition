@@ -58,8 +58,8 @@ def sample_fingerprint(peaks, fan_out=15):
 
     Returns
     -------
-    List[Tuple[int,int]]
-        Fingerprint with (frequency1, frequency2, time between)s
+    List[Tuple[int,Tuple[int,int,int]]]
+        Fingerprint with times and (frequency1, frequency2, time between)s
         to be compared with known song fingerprints.
 
     '''
@@ -70,5 +70,5 @@ def sample_fingerprint(peaks, fan_out=15):
         else:
             compare_peaks = peaks[p:p + fan_out]
         for c in range(len(compare_peaks)):
-            l.append((peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0]))
+            l.append((peaks[p][0],(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])))
     return l
