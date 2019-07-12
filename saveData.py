@@ -16,8 +16,8 @@ def songSave():
     orgSongDict = {}  # Initializes an empty dictionary which the song ids mapped to the data will be added to.
     songIdDict = {}  # Initializes an empty dictionary which the song ids mapped to the songs will be added to
 
-    proj_root = Path(sys.path[0])  # sets the path of proj_root to song-recognition
-    song_root = proj_root / r"songs"  # sets the path of song_root to song-recognition/songs
+    proj_root = Path(r"/Users/em/song-recognition")  # sets the path of proj_root to song-recognition
+    song_root = proj_root / r"songs6"  # sets the path of song_root to song-recognition/songs
 
     files = sorted(song_root.glob('*.mp3'))  # Creates a list of all the song directories
 
@@ -34,7 +34,7 @@ def songSave():
     # Iterates through the files, takes samples on each of them, and adds each of them to the dictionary
     for item in range(len(files)):
         audio = MP3(files[item])
-        samples, fs = librosa.load(files[item], sr=44100, mono=True, duration=audio.info.length)
+        samples, fs = librosa.load(str(files[item]), sr=44100, mono=True, duration=audio.info.length)
         samp = np.array(samples)
         samp *= (2 ** 15)
         samples = list(samp)
@@ -145,9 +145,6 @@ def song_fingerprint(peaks, fan_out=15):
 
     Parameters
     ----------
-    song_id : int
-        Unique integer used to identify song.
-
     peaks : List[Tuple[int, int]]
         List of tuples containing times and frequencies of the peaks.
 
@@ -163,8 +160,13 @@ def song_fingerprint(peaks, fan_out=15):
 
     '''
     d = {}
+    print(len(peaks))
     for song_id in range(len(peaks)):
+        print("currently fingerprinting", song_id)
+        print(len(peaks[song_id]))
         for p in range(len(peaks[song_id])):
+            if p % 1000 == 0:
+                print("on peak", p, "of", len(peaks[song_id]))
             if p > len(peaks)-fan_out:
                 compare_peaks = peaks[song_id][p+1:]
             else:
@@ -178,12 +180,19 @@ def song_fingerprint(peaks, fan_out=15):
     return d
 
 def main():
+    #with open("song_fingerprints.pkl", mode="rb") as opened_file:
+    #    d = pickle.load(opened_file)
     digital_data = songSave()
+    print("finished song save")
     pk_list = []
     for song in digital_data:
+        print(song)
         spectrogram = create_spec(digital_data[song])
-        peaks = local_peaks(spectrogram, 0.77, 15)
+        sorted_a = np.sort(spectrogram, axis=None)
+        cutoff = sorted_a[int(0.77*len(sorted_a))]
+        peaks = local_peaks(spectrogram, cutoff, 15)
         pk_list.append(peaks)
+    print("ready to fingerprint")
     d = song_fingerprint(pk_list)
 
     with open("song_fingerprints.pkl", mode="wb") as opened_file:
