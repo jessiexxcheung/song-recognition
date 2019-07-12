@@ -5,7 +5,22 @@ import numpy as np
 from mutagen.mp3 import MP3
 import pickle
 
+def getSong(path):
+    di = {}
+
+    proj_root = Path(sys.path[0])  # sets the path of proj_root to song-recognition
+    song_root = proj_root / r"songs"  # sets the path of song_root to song-recognition/songs
+
+    song = song_root / path
+    audio = MP3(song)
+    samples, fs = librosa.load(song, sr=44100, mono=True, duration=audio.info.length)
+    samp = np.array(samples)
+    samp *= (2 ** 15)
+    samples = list(samp)
+    di[0] = samples
+
 def songSave():
+
     """
     :return: dictionary orgSongDict: A dictionary containing each song key mapped to a digital representation of the song
     """

@@ -6,7 +6,7 @@ def main():
 
 
     #Known song dict with each key as a song number starting at zero with a list of samples as the value
-    known_songs = saveSongs.orgSongDict
+    known_songs = saveSongs.songSave()
 
     mic_spec = get_mic_input.rec(10)     #Spectrogram of the mic input
 
