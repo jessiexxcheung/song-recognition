@@ -1,19 +1,19 @@
-from audio_sampling import analog_to_digital, song_to_digital, turn_off_ticks
-import numpy as np
-import librosa
-import matplotlib.pyplot as plt
-from IPython.display import Audio
-import pickle
-
+import sys
+from mutagen.mp3 import MP3
 sampling_rate = 44100
 bit_depth = 64
 dict = {}
 
 from pathlib import Path
 
-song_root = Path(r"C:\Users\darsh\Downloads\song-recognition\songs")
+proj_root = Path(sys.path[0])  # sets the path of proj_root to song-recognition
+song_root = proj_root / r"songs"  # sets the path of song_root to song-recognition/songs
 
-Feel = song_root / r"Feel It Still_Portugal The Man.mp3"
+
+files = sorted(song_root.glob('*.mp3'))  # Creates a list of all the song directories
+
+
+"""
 samples, fs = librosa.load(Feel, sr=44100, mono=True, duration=156)
 samp = np.array(samples)
 samp *= (2**15)
@@ -116,5 +116,5 @@ samples, fs = librosa.load(Watch, sr=44100, mono=True, duration=156)
 samp = np.array(samples)
 samp *= (2**15)
 samples = list(samp)
-dict[14] = samples
-
+dict[14] = samples 
+"""
