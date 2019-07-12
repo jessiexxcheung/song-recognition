@@ -1,4 +1,4 @@
-import audio_sampling, saveStuff, find_peaks, spectrogram, get_mic_input
+import audio_sampling, saveSongs, find_peaks, spectrogram, get_mic_input
 from microphone import record_audio
 import numpy as np
 
