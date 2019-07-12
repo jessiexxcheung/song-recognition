@@ -1,6 +1,9 @@
-name='find_peaks'
-
 from numba import njit
+import numpy as np
+
+from scipy.ndimage.morphology import generate_binary_structure
+from scipy.ndimage.morphology import iterate_structure
+
 
 @njit()
 def _peaks(spec, rows, cols, amp_min):
