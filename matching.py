@@ -14,20 +14,19 @@ def match(fingerprint, database):
     # collections.Counter
     c = collections.Counter()
 
-    # tup is unknown song data
+    # tup is unknown song data- contains time and key
     for tup in fingerprint:
+
         # check if fingerprint is a key
         if tup[1] in database.keys():
             time, peak = tup
+
             # pair is value tuple with id and time
             for pair in database[peak]:
                 c[pair[0], pair[1]-time] += 1
                 print(pair[1])
+
     # check most popular song id
-    """for v in val:
-        for i in range(len(v)):
-           c[v[i][0]] += 1
-    """
     most_com = c.most_common(1)
     threshold = 500
     if most_com[0][1] < threshold:
