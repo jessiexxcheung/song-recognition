@@ -170,10 +170,10 @@ def song_fingerprint(peaks, fan_out=15):
             else:
                 compare_peaks = peaks[song_id][p+1:p+fan_out]
             for c in range(len(compare_peaks)):
-                if (peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0]) not in d:
-                    d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])] = [(song_id, peaks[p][0])]
+                if (peaks[song_id][p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[song_id][p][0]) not in d:
+                    d[(peaks[song_id][p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[song_id][p][0])] = [(song_id, peaks[song_id][p][0])]
                 else:
-                    d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])].append((song_id, peaks[p][0]))
+                    d[(peaks[song_id][p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[song_id][p][0])].append((song_id, peaks[song_id][p][0]))
 
     return d
 
@@ -184,7 +184,7 @@ def main():
         spectrogram = create_spec(digital_data[song])
         peaks = local_peaks(spectrogram, 0.77, 15)
         pk_list.append(peaks)
-    song_fingerprint(pk_list)
+    d = song_fingerprint(pk_list)
 
     with open("song_fingerprints.pkl", mode="wb") as opened_file:
         pickle.dump(d, opened_file)
