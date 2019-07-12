@@ -1,3 +1,5 @@
+import pickle
+
 def song_fingerprint(song_id, peaks, fan_out=15):
     '''
     Reads in the frequencies and times of the peaks and returns
@@ -33,6 +35,10 @@ def song_fingerprint(song_id, peaks, fan_out=15):
                 d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])] = [(song_id, peaks[p][0])]
             else:
                 d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])].append((song_id, peaks[p][0]))
+
+    with open(str(song_id) + ".pkl", mode="wb") as opened_file:
+        pickle.dump(d, opened_file)
+
     return d
 
 
