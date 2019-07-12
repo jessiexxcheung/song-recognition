@@ -27,7 +27,6 @@ def song_fingerprint(song_id, peaks, fan_out=15):
     d = {}
     for song_id in range(len(peaks)):
         for p in range(len(peaks[song_id])):
-            if p % 1000 == 0:
             if p > len(peaks) - fan_out:
                 compare_peaks = peaks[song_id][p + 1:]
             else:
