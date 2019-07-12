@@ -1,4 +1,4 @@
-import audio_sampling, saveSongs, find_peaks, spectrogram, get_mic_input, fingerprints, pickle
+import audio_sampling, saveSongs, find_peaks, spectrogram, get_mic_input, fingerprints, pickle, matching
 from microphone import record_audio
 import numpy as np
 
@@ -13,7 +13,7 @@ def main():
     mic_peaks = find_peaks.local_peaks(mic_spec, .77, 20)  #Find peaks of the unknown samples
     mic_fingerprint = fingerprints.sample_fingerprint(mic_peaks)   #Fingerprint the unknown samples
 
-    matching.match(mic_fingerprint, known_songs)
+    return matching.match(mic_fingerprint, known_songs)
 
 if __name__ == "__main__":
     main()
