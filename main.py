@@ -3,8 +3,6 @@ from microphone import record_audio
 import numpy as np
 
 def main():
-    if __name__ == "__main__":
-        main()
 
 
     #Known song dict with each key as a song number starting at zero with a list of samples as the value
@@ -21,3 +19,6 @@ def main():
 
 
     #Return found or not found statement
+
+if __name__ == "__main__":
+    main()
