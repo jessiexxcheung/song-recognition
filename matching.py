@@ -24,7 +24,6 @@ def match(fingerprint, database):
             # pair is value tuple with id and time
             for pair in database[peak]:
                 c[pair[0], pair[1]-time] += 1
-                print(pair[1])
 
     # check most popular song id
     most_com = c.most_common(1)
