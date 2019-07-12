@@ -29,7 +29,7 @@ def match(fingerprint, database):
     most_com = c.most_common(1)
     threshold = 500
     if most_com[0][1] < threshold:
-        return "Peter doesn't recognize the song"
+        return "Petar doesn't recognize the song"
     else:
         song_id = most_com[0][0]
         return song_id
