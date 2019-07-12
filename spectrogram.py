@@ -1,6 +1,4 @@
 import numpy as np
-%matplotlib notebook
-import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
 from microphone import record_audio
 

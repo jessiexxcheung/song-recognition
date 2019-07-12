@@ -10,12 +10,9 @@ def main():
     #Known song dict with each key as a song number starting at zero with a list of samples as the value
     known_songs = saveSongs.orgSongDict
 
-    #Spectrogram of the mic input
-    mic_spec = get_mic_input.rec(10)
+    mic_spec = get_mic_input.rec(10)     #Spectrogram of the mic input
 
-
-    #Find peaks of the unknown samples
-
+    mic_peaks = find_peaks.local_peaks(mic_spec, .77, 20)  #Find peaks of the unknown samples
 
     #Fingerprint the unknown samples
 
