@@ -6,11 +6,12 @@ def main():
     if __name__ == "__main__":
         main()
 
-    mic_spec = get_mic_input.rec(10)
 
     #Known song dict with each key as a song number starting at zero with a list of samples as the value
     known_songs = saveSongs.orgSongDict
-    #Create spectrogram from the unknown samples
+
+    #Spectrogram of the mic input
+    mic_spec = get_mic_input.rec(10)
 
 
     #Find peaks of the unknown samples

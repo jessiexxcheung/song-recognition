@@ -26,5 +26,10 @@ def match(fingerprint, database):
         for i in range(len(v)):
             c[v[i][0]] += 1
     most_com = c.most_common(1)
-    song_id = most_com[0][0]
-    return song_id
+    print(most_com)
+    threshold = 500
+    if most_com[0][1] < threshold:
+        return "Peter doesn't recognize the song"
+    else:
+        song_id = most_com[0][0]
+        return song_id

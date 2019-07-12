@@ -9,7 +9,7 @@ def song_fingerprint(song_id, peaks, fan_out=15):
         Unique integer used to identify song.
 
     peaks : List[Tuple[int, int]]
-        List of tuples containing frequencies and times of the peaks.
+        List of tuples containing times and frequencies of the peaks.
 
     fan_out : int
         Number of nearest column-major ordered neighbors that the
@@ -25,14 +25,14 @@ def song_fingerprint(song_id, peaks, fan_out=15):
     d = {}
     for p in range(len(peaks)):
         if p > len(peaks)-fan_out:
-            compare_peaks = peaks[p:]
+            compare_peaks = peaks[p+1:]
         else:
-            compare_peaks = peaks[p:p+fan_out]
+            compare_peaks = peaks[p+1:p+fan_out]
         for c in range(len(compare_peaks)):
-            if (p[0], c[0], c[1]-p[1]) not in d:
-                d[(p[0], c[0], c[1]-p[1])] = [(song_id, p[1])]
+            if (peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0]) not in d:
+                d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])] = [(song_id, peaks[p][0])]
             else:
-                d[(p[0], c[0], c[1]-p[1])].append([(song_id, p[1])])
+                d[(peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0])].append((song_id, peaks[p][0]))
     return d
 
 
@@ -64,5 +64,5 @@ def sample_fingerprint(peaks, fan_out=15):
         else:
             compare_peaks = peaks[p:p + fan_out]
         for c in range(len(compare_peaks)):
-            l.append((p[0], c[0], c[1]-p[1]))
+            l.append((peaks[p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[p][0]))
     return l
