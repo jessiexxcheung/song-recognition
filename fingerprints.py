@@ -2,7 +2,7 @@ import pickle
 
 def song_fingerprint(song_id, peaks, fan_out=15):
     '''
-    Reads in the frequencies and times of the peaks and returns
+    Reads in the times and frequencies of the peaks and returns
     the unique fingerprint of the song based on the peaks.
 
     Parameters
@@ -44,13 +44,13 @@ def song_fingerprint(song_id, peaks, fan_out=15):
 
 def sample_fingerprint(peaks, fan_out=15):
     '''
-    Reads in the frequencies and times of the peaks and returns
+    Reads in the times and frequencies of the peaks and returns
     the unique fingerprint of the song based on the peaks.
 
     Parameters
     ----------
     peaks : List[Tuple[int, int]]
-        List of tuples containing frequencies and times of the peaks.
+        List of tuples containing times and frequencies of the peaks.
 
     fan_out : int
         Number of nearest column-major ordered neighbors that the
