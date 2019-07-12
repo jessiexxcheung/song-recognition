@@ -5,7 +5,7 @@ import numpy as np
 from mutagen.mp3 import MP3
 import pickle
 
-dict = {}  # Initializes an empty dictionary which the data will be added to.
+orgSongDict = {}  # Initializes an empty dictionary which the data will be added to.
 
 proj_root = Path(sys.path[0])  # sets the path of proj_root to song-recognition
 song_root = proj_root / r"songs"  # sets the path of song_root to song-recognition/songs
@@ -19,8 +19,4 @@ for item in range(len(files)):
     samp = np.array(samples)
     samp *= (2 ** 15)
     samples = list(samp)
-    dict[item] = samples
-
-# Saves the dictionary to pickle
-with open("dict.pkl",mode="wb") as songs_file:
-    pickle.dump(dict, songs_file)
+    orgSongDict[item] = samples
