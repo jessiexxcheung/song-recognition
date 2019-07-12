@@ -14,7 +14,7 @@ def match(fingerprint, database):
     # collections.Counter
     c = collections.Counter()
 
-    # tup is unknown song data- contains time and key
+    # tup is unknown song data- contains time and fingerprints
     for tup in fingerprint:
 
         # check if fingerprint is a key
@@ -30,7 +30,7 @@ def match(fingerprint, database):
     print(most_com[0][1])
     threshold = 100
     if most_com[0][1] < threshold:
-        return "Petar doesn't recognize the song"
+        return "Petar doesn't recognize that song"
     else:
-        song_id = most_com[0][0]
+        song_id = most_com[0][0][0]
         return song_id
