@@ -1,4 +1,5 @@
 import collections
+import pickle
 name = "matching"
 
 
@@ -33,4 +34,6 @@ def match(fingerprint, database):
         return "Petar doesn't recognize that song"
     else:
         song_id = most_com[0][0][0]
-        return song_id
+        with open("SongIds.pkl", mode="rb") as opened_file:
+            songIDs = pickle.load(opened_file)
+            return songIDs[song_id]

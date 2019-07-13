@@ -2,6 +2,7 @@ from microphone import record_audio
 import spectrogram
 import numpy as np
 
+
 def rec(t):
     """
     Receives microphone input and creates a log spectrogram of the audio, capping any amplitude less than 1E-20

@@ -4,13 +4,23 @@ from pathlib import Path
 import numpy as np
 from mutagen.mp3 import MP3
 import pickle
+import spectrogram
+import find_peaks
+import fingerprints
+
 
 def songSave():
+
     """
-    :return: dictionary orgSongDict: A dictionary containing each song key mapped to a digital representation of the song
+    :return: dictionary orgSongDict
+        A dictionary containing each song key mapped to a digital representation of the song
     """
+
     orgSongDict = {}  # Initializes an empty dictionary which the song ids mapped to the data will be added to.
     songIdDict = {}  # Initializes an empty dictionary which the song ids mapped to the songs will be added to
+    database = {}
+
+
 
     proj_root = Path(sys.path[0])  # sets the path of proj_root to song-recognition
     song_root = proj_root / r"songs"  # sets the path of song_root to song-recognition/songs
@@ -35,5 +45,16 @@ def songSave():
         samp *= (2 ** 15)
         samples = list(samp)
         orgSongDict[item] = samples
+    for i in range(len(orgSongDict.values())):
+        sorted_a = np.sort(list(orgSongDict.values())[i], axis=None)
+        cutoff = sorted_a[int(0.77 * len(sorted_a))]
+        specSong = spectrogram.create_spec(list(orgSongDict.values())[i])
+        songPeaks = find_peaks.local_peaks(specSong, cutoff, 20 )
+        songFingerprint = fingerprints.song_fingerprint(i, songPeaks)
+        database[i] = songFingerprint
+    with open("song_fingerprints.pkl", mode="wb") as opened_file:
+        pickle.dump(database, opened_file)
 
     return orgSongDict
+
+songSave()
