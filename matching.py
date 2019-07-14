@@ -1,4 +1,4 @@
-import collections
+from collections import Counter
 import pickle
 name = "matching"
 
@@ -12,10 +12,38 @@ def match(fingerprint, database):
 
     :return: a song name or 'no match'
     """
-    # collections.Counter
-    c = collections.Counter()
 
+    c = []
     # tup is unknown song data- contains time and fingerprints
+    for tup in fingerprint:
+
+        # check if fingerprint is a key
+        if tup[1] in database.keys():
+            songs = database[tup[1]]
+            for item in songs:
+                c.append(songs[0])
+
+    # check most popular song id
+    print("c")
+    print(c)
+    # c1 = [item[0] for item in c]
+    # print("C1")
+    # print(c1)
+    most_com = Counter(c).most_common(5)
+    print("Most_com")
+    print(most_com)
+    threshold = 70
+    if most_com[0][1] < threshold:
+        return "Petar doesn't recognize that song"
+    else:
+        song_id = most_com[0][0]
+        with open("SongIds.pkl", mode="rb") as opened_file:
+            songIDs = pickle.load(opened_file)
+            return songIDs[song_id]
+
+
+    c = Counter()
+
     for tup in fingerprint:
 
         # check if fingerprint is a key
@@ -23,17 +51,15 @@ def match(fingerprint, database):
             time, peak = tup
 
             # pair is value tuple with id and time
-            for pair in database[peak]:
-                c[pair[0], pair[1]-time] += 1
+            pair = database[peak]
+            c[pair[0], pair[1] - time] += 1
 
-    # check most popular song id
-    most_com = c.most_common(1)
+        # check most popular song id
+    most_com = c.most_common(5)
     print(most_com)
-    threshold = 70
+    threshold = 100
     if most_com[0][1] < threshold:
         return "Petar doesn't recognize that song"
     else:
         song_id = most_com[0][0][0]
-        with open("SongIds.pkl", mode="rb") as opened_file:
-            songIDs = pickle.load(opened_file)
-            return songIDs[song_id]
+        return song_id

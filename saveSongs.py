@@ -45,16 +45,25 @@ def songSave():
         samp *= (2 ** 15)
         samples = list(samp)
         orgSongDict[item] = samples
+    print(len(orgSongDict.values()))
     for i in range(len(orgSongDict.values())):
         sorted_a = np.sort(list(orgSongDict.values())[i], axis=None)
+        print("len(sorted_a)")
+        print(len(sorted_a))
         cutoff = sorted_a[int(0.77 * len(sorted_a))]
-        specSong = spectrogram.create_spec(list(orgSongDict.values())[i])
-        songPeaks = find_peaks.local_peaks(specSong, cutoff, 20 )
-        songFingerprint = fingerprints.song_fingerprint(i, songPeaks)
-        database[i] = songFingerprint
+        specSong = spectrogram.create_spec(list(sorted_a))
+        songPeaks = find_peaks.local_peaks(specSong, cutoff, 20)
+        # print("songpeaks below")
+        # print(songPeaks)
+        print(i)
+        # print("len")
+        print(len(songPeaks))
+        a = fingerprints.song_fingerprint(i, songPeaks)
+        database.update(a)
     with open("song_fingerprints.pkl", mode="wb") as opened_file:
         pickle.dump(database, opened_file)
-
+    # for item in database.values():
+    #     print(item)
     return orgSongDict
 
 songSave()

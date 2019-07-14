@@ -1,7 +1,6 @@
-import audio_sampling, saveSongs_mac, find_peaks, spectrogram, get_mic_input, fingerprints, pickle, matching
-from microphone import record_audio
+import find_peaks, get_mic_input, fingerprints, pickle, matching
 import numpy as np
-
+from collections import Counter
 
 def main():
 
@@ -14,12 +13,13 @@ def main():
     sorted_a = np.sort(mic_spec, axis=None)
     cutoff = sorted_a[int(0.77 * len(sorted_a))]
     mic_peaks = find_peaks.local_peaks(mic_spec, cutoff, 20)  # Find peaks of the unknown samples
+
     mic_fingerprint = fingerprints.sample_fingerprint(mic_peaks)   # Fingerprint the unknown samples
-
-    print(known_songs.values())
-
-    print(matching.match(mic_fingerprint, known_songs))
-
+    print("Known Songs")
+    known_songs_1 = [song[0] for song in known_songs.values()]
+    # print(known_songs_1)
+    print(matching.match(mic_fingerprint, database=known_songs))
+    # print(Counter(known_songs_1).most_common(20))
 
 if __name__ == "__main__":
     main()
