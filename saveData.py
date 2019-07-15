@@ -2,7 +2,6 @@ import matplotlib.mlab as mlab
 from numba import njit
 from scipy.ndimage.morphology import generate_binary_structure
 from scipy.ndimage.morphology import iterate_structure
-import sys
 import librosa
 from pathlib import Path
 import numpy as np
@@ -21,11 +20,14 @@ def songSave():
 
     files = sorted(song_root.glob('*.mp3'))  # Creates a list of all the song directories
 
+    with open("SongIds.pkl", mode="rb") as opened_file:
+        songIdDict = pickle.load(opened_file)
+
     # Iterates through the files and maps each song ID to a tuple containing the song and the artist
     for i in range(len(files)):
         item2 = files[i].stem
         item3 = tuple(item2.split("_"))
-        songIdDict[i] = item3
+        songIdDict[i+len(songIdDict)] = item3
 
     # Pickles songIdDict
     with open("SongIds.pkl", mode="wb") as opened_file:
@@ -138,7 +140,7 @@ def create_spec(audio):
     return np.log(S)
 
 
-def song_fingerprint(peaks, fan_out=15):
+def song_fingerprint(dictionary, peaks, fan_out=15):
     '''
     Reads in the times and frequencies of the peaks and returns
     the unique fingerprint of the song based on the peaks.
@@ -159,9 +161,12 @@ def song_fingerprint(peaks, fan_out=15):
         and values representing the list of (song, time)s that match the key.
 
     '''
-    d = {}
+    with open("SongIds.pkl", mode="rb") as opened_file:
+        songIDdict = pickle.load(opened_file)
+    d = dictionary
+    print(d.keys())
     print(len(peaks))
-    for song_id in range(len(peaks)):
+    for song_id in range(len(songIDdict), len(songIDdict)+len(peaks)):
         print("currently fingerprinting", song_id)
         print(len(peaks[song_id]))
         for p in range(len(peaks[song_id])):
@@ -177,11 +182,13 @@ def song_fingerprint(peaks, fan_out=15):
                 else:
                     d[(peaks[song_id][p][1], compare_peaks[c][1], compare_peaks[c][0]-peaks[song_id][p][0])].append((song_id, peaks[song_id][p][0]))
 
+    print(d.keys())
     return d
 
 def main():
-    #with open("song_fingerprints.pkl", mode="rb") as opened_file:
-    #    d = pickle.load(opened_file)
+    with open("song_fingerprints.pkl", mode="rb") as opened_file:
+        d = pickle.load(opened_file)
+    #print(d.keys())
     digital_data = songSave()
     print("finished song save")
     pk_list = []
@@ -193,7 +200,8 @@ def main():
         peaks = local_peaks(spectrogram, cutoff, 15)
         pk_list.append(peaks)
     print("ready to fingerprint")
-    d = song_fingerprint(pk_list)
+    d = song_fingerprint(d, pk_list)
+    print(d[(0, 676, 294)])
 
     with open("song_fingerprints.pkl", mode="wb") as opened_file:
         pickle.dump(d, opened_file)
