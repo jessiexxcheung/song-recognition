@@ -13,7 +13,7 @@ def main():
     #Known song dict with each key as a song number starting at zero with a list of samples as the value
     known_songs = saveSongs.songSave()
 
-    mic_spec = get_mic_input.rec(20)     # Spectrogram of the mic input
+    mic_spec = get_mic_input.rec(20)     # Spectrogram of the mic input. Uses 20 seconds for now. hopefully we can find a smaller value that still returns accurate results (10 wasnt working for me)
 
 
     sorted_b = np.sort(mic_spec.flatten())
