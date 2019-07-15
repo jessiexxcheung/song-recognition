@@ -47,17 +47,11 @@ def songSave():
         orgSongDict[item] = samples
     print(len(orgSongDict.values()))
     for i in range(len(orgSongDict.values())):
-        sorted_a = np.sort(list(orgSongDict.values())[i], axis=None)
-        print("len(sorted_a)")
-        print(len(sorted_a))
-        cutoff = sorted_a[int(0.77 * len(sorted_a))]
-        specSong = spectrogram.create_spec(list(sorted_a))
+        specSong = spectrogram.create_spec(list(orgSongDict.values())[i])
+        flatSpec = np.sort(np.array(specSong).flatten())
+        cutoff = flatSpec[int(0.77 * len(flatSpec))]
         songPeaks = find_peaks.local_peaks(specSong, cutoff, 20)
-        # print("songpeaks below")
-        # print(songPeaks)
-        print(i)
-        # print("len")
-        print(len(songPeaks))
+        print(songPeaks)
         a = fingerprints.song_fingerprint(i, songPeaks)
         database.update(a)
     with open("song_fingerprints.pkl", mode="wb") as opened_file:

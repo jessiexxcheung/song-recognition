@@ -24,22 +24,22 @@ def match(fingerprint, database):
                 c.append(songs[0])
 
     # check most popular song id
-    print("c")
-    print(c)
-    # c1 = [item[0] for item in c]
+    # print("c")
+    # print(c)
+    c1 = [item[0] for item in c]
     # print("C1")
     # print(c1)
-    most_com = Counter(c).most_common(5)
-    print("Most_com")
-    print(most_com)
+    most_com = Counter(c1).most_common(5)
+    # print("Most_com")
+    # print(most_com)
     threshold = 70
-    if most_com[0][1] < threshold:
-        return "Petar doesn't recognize that song"
-    else:
-        song_id = most_com[0][0]
-        with open("SongIds.pkl", mode="rb") as opened_file:
-            songIDs = pickle.load(opened_file)
-            return songIDs[song_id]
+    # if most_com[0][1] < threshold:
+    #     return "Petar doesn't recognize that song"
+    # else:
+    song_id = most_com[0][0]
+    with open("SongIds.pkl", mode="rb") as opened_file:
+        songIDs = pickle.load(opened_file)
+        return songIDs[song_id]
 
 
     c = Counter()

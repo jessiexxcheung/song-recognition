@@ -7,6 +7,7 @@ def create_spec(audio):
     S, freqs, times = mlab.specgram(audio, NFFT=4096, Fs=sampling_rate,
                                             window=mlab.window_hanning,
                                             noverlap=4096 // 2)
-    S[S <= 1E-20] = 1e-20
+    S[S <= 1e-20] = 1e-20
     return np.log(S)
+
 
